@@ -427,6 +427,7 @@ plot.multi <- function(x, type = "multi", allCurves = TRUE,
                       pcol = 'dodgerblue2', ModTitle = NULL,
                       TiAdj = 0, TiLine = 0.5, cex.main = 1.5,
                       cex.lab = 1.3, cex.axis = 1, yRange = NULL,
+                      xRange = NULL,
                       lwd = 2, lcol = 'dodgerblue2', mmSep = FALSE,
                       lwd.Sep = 6, col.Sep = "black", pLeg = TRUE,
                       modNames = NULL, cex.names=.88,
@@ -455,6 +456,10 @@ plot.multi <- function(x, type = "multi", allCurves = TRUE,
   yy <- df$S
   nams <-  vapply(dat2, function(x) x$model$name, FUN.VALUE = character(1))
   xx2 <- seq(min(xx), max(xx), length.out = 1000)
+
+  if (is.null(xRange)){
+    xRange <- c(min(xx), max(xx)+1)
+  }
 
   #fitted values for each model
   mf <- lapply(dat2, function(y) {
@@ -558,7 +563,7 @@ plot.multi <- function(x, type = "multi", allCurves = TRUE,
       if (confInt){
         matplot(x = xx, y = yy, xlab = xlab, ylab = ylab,
                 cex.lab = cex.lab, cex.axis = cex.axis,
-                xlim = c(min(xx), xMAX), ylim = yRange, pch = pch,
+                xlim = c(min(xx), xMAX), ylim = yRange, xlim = xRange, pch = pch,
                 col = "white")
         polygon(c(xx,rev(xx)),c(CI$L,rev(CI$U)),col="grey87",border=NA)
         points(x = xx, y = yy, pch = pch, col = pcol,
@@ -567,7 +572,7 @@ plot.multi <- function(x, type = "multi", allCurves = TRUE,
         matplot(x = xx, y = yy, xlab = xlab, ylab = ylab, pch = pch,
                 col = pcol,
                 cex = cex, cex.lab = cex.lab, cex.axis = cex.axis,
-                xlim = c(min(xx), xMAX), ylim = yRange)
+                xlim = xRange, ylim = yRange)
       }#eo confInt
     } else{ #no legend
 
@@ -601,7 +606,8 @@ plot.multi <- function(x, type = "multi", allCurves = TRUE,
     #just multimodel SAR curve
     if (confInt){
       plot(x = xx, y = yy, xlab = xlab, ylab = ylab,
-            cex.lab = cex.lab, cex.axis = cex.axis, ylim = yRange)
+            cex.lab = cex.lab, cex.axis = cex.axis, ylim = yRange, 
+            xlim = xRange)
       polygon(c(xx,rev(xx)),c(CI$L,rev(CI$U)),col="grey87",border=NA)
       points(x = xx, y = yy, pch = pch, col = pcol,
              cex = cex)
@@ -609,7 +615,8 @@ plot.multi <- function(x, type = "multi", allCurves = TRUE,
       lines(x = xx2, y = wfv, lwd = lwd, col = lcol)
     } else {
       plot(x = xx, y = yy, xlab = xlab, ylab = ylab, pch = pch, col = pcol,
-      cex = cex, cex.lab = cex.lab, cex.axis = cex.axis, ylim = yRange)
+      cex = cex, cex.lab = cex.lab, cex.axis = cex.axis, ylim = yRange, 
+      xlim = xRange)
       title(main = ModTitle, adj = TiAdj, line = TiLine, cex.main = cex.main)
       lines(x = xx2, y = wfv, lwd = lwd, col = lcol)
     }#eo confint

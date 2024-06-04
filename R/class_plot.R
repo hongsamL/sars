@@ -563,7 +563,7 @@ plot.multi <- function(x, type = "multi", allCurves = TRUE,
       if (confInt){
         matplot(x = xx, y = yy, xlab = xlab, ylab = ylab,
                 cex.lab = cex.lab, cex.axis = cex.axis,
-                xlim = c(min(xx), xMAX), ylim = yRange, xlim = xRange, pch = pch,
+                xlim = c(min(xx), xMAX), ylim = yRange, pch = pch,
                 col = "white")
         polygon(c(xx,rev(xx)),c(CI$L,rev(CI$U)),col="grey87",border=NA)
         points(x = xx, y = yy, pch = pch, col = pcol,
